@@ -133,13 +133,4 @@ Item {
         //     return off;
         // }
     }
-
-    // Utilities.Wrapper {
-    //     id: utilities
-
-    //     visibility: root.visibilities.utilities
-    //     anchors.bottom: parent.bottom
-    //     anchors.right: parent.right
-    // }
-
 }

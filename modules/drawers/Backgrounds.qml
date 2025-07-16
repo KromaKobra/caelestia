@@ -7,7 +7,6 @@ import "root:/modules/launcher" as Launcher
 import "root:/modules/notifications" as Notifications
 import "root:/modules/osd" as Osd
 import "root:/modules/session" as Session
-// import "root:/modules/utilities" as Utilities
 import "root:/services"
 
 Shape {
@@ -58,11 +57,4 @@ Shape {
         startX: wrapper.x
         startY: wrapper.y - rounding * sideRounding
     }
-
-    // Utilities.Background {
-    //     wrapper: panels.utilities
-    //     startX: root.width
-    //     startY: root.height
-    // }
-
 }
