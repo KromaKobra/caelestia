@@ -13,62 +13,29 @@ Item {
 
     required property ShellScreen screen
 
-    readonly property real nonAnimWidth: x > 0 || hasCurrent ? children.find(c => c.shouldBeActive)?.implicitWidth ?? content.implicitWidth : 0
-    readonly property real nonAnimHeight: children.find(c => c.shouldBeActive)?.implicitHeight ?? content.implicitHeight
+    readonly property real nonAnimHeight: y > 0 || hasCurrent ? children.find(c => c.shouldBeActive)?.implicitHeight ?? content.implicitHeight : 0
+    readonly property real nonAnimWidth: children.find(c => c.shouldBeActive)?.implicitWidth ?? content.implicitWidth
 
     property string currentName
     property real currentCenter
     property bool hasCurrent
 
-    property string detachedMode
-    readonly property bool isDetached: detachedMode.length > 0
-
     property int animLength: Appearance.anim.durations.normal
     property list<real> animCurve: Appearance.anim.curves.emphasized
-
-    function detach(mode: string): void {
-        animLength = Appearance.anim.durations.large;
-        detachedMode = mode;
-        focus = true;
-    }
-
-    function close(): void {
-        hasCurrent = false;
-        animCurve = Appearance.anim.curves.emphasizedAccel;
-        animLength = Appearance.anim.durations.normal;
-        detachedMode = "";
-        animCurve = Appearance.anim.curves.emphasized;
-    }
 
     visible: width > 0 && height > 0
     clip: true
 
-    implicitWidth: nonAnimWidth
     implicitHeight: nonAnimHeight
-
-    Keys.onEscapePressed: close()
-
-    HyprlandFocusGrab {
-        active: root.isDetached
-        windows: [QsWindow.window]
-        onCleared: root.close()
-    }
-
-    Binding {
-        when: root.isDetached
-
-        target: QsWindow.window
-        property: "WlrLayershell.keyboardFocus"
-        value: WlrKeyboardFocus.OnDemand
-    }
+    implicitWidth: nonAnimWidth
 
     Comp {
         id: content
 
-        shouldBeActive: !root.detachedMode
+        shouldBeActive: true
         asynchronous: true
-        anchors.right: parent.right
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
 
         sourceComponent: Content {
             wrapper: root
@@ -79,34 +46,16 @@ Item {
         }
     }
 
-    Comp {
-        shouldBeActive: root.detachedMode === "winfo"
-        asynchronous: true
-        anchors.centerIn: parent
-
-        sourceComponent: WindowInfo {
-            screen: root.screen
-            client: Hyprland.activeToplevel
+    Behavior on y {
+        Anim {
+            duration: root.animLength
+            easing.bezierCurve: root.animCurve
         }
     }
 
     Behavior on x {
-        Anim {
-            duration: root.animLength
-            easing.bezierCurve: root.animCurve
-        }
-    }
+        enabled: root.implicitHeight > 0
 
-    Behavior on y {
-        enabled: root.implicitWidth > 0
-
-        Anim {
-            duration: root.animLength
-            easing.bezierCurve: root.animCurve
-        }
-    }
-
-    Behavior on implicitWidth {
         Anim {
             duration: root.animLength
             easing.bezierCurve: root.animCurve
@@ -114,7 +63,14 @@ Item {
     }
 
     Behavior on implicitHeight {
-        enabled: root.implicitWidth > 0
+        Anim {
+            duration: root.animLength
+            easing.bezierCurve: root.animCurve
+        }
+    }
+
+    Behavior on implicitWidth {
+        enabled: root.implicitHeight > 0
 
         Anim {
             duration: root.animLength

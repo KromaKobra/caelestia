@@ -9,7 +9,6 @@ JsonObject {
 
     sizes: JsonObject {
         property int innerHeight: 22
-        // property int windowPreviewSize: 400
         property int trayMenuWidth: 300
         property int batteryWidth: 250
     }
@@ -25,5 +24,4 @@ JsonObject {
         property string occupiedLabel: "󰄯 "
         property string activeLabel: "󰄯 " //󰲠 󰲢
     }
-
 }

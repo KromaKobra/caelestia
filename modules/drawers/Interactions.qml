@@ -126,19 +126,13 @@ MouseArea {
         // Show popouts on hover
         const popout = panels.popouts;
         if (y < bar.implicitHeight + popout.height) {
-            if (y < bar.implicitHeight) {
+            if (y < bar.implicitHeight)
                 bar.checkPopout(x);
-            } else {
-                const overPopoutX = x >= popout.x - Config.border.rounding && x <= popout.x + popout.width + Config.border.rounding;
-                const overPopoutY = y >= popout.y && y <= popout.y + popout.height + Config.border.rounding;
-                popouts.hasCurrent = overPopoutX && overPopoutY;
-
-                // popouts.hasCurrent = withinPanelWidth(popout, x, y)//(x > popout.x - Config.border.rounding && x < popout.x + popout.width + Config.border.rounding);
-                // popouts.hasCurrent = false;
-            }
-        } else {
+            else
+                // Keep on hover
+                popouts.hasCurrent = withinPanelWidth(popout, x, y);
+        } else
             popouts.hasCurrent = false;
-        }
     }
 
     // Monitor individual visibility changes

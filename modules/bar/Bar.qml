@@ -1,4 +1,3 @@
-// Bar.qml
 import "root:/widgets"
 import "root:/services"
 import "root:/config"
@@ -139,7 +138,7 @@ Item {
             anchors.right: power.left
             anchors.rightMargin: Appearance.spacing.normal
 
-            // // Next is a replacement for the anchors above
+            // // Next is an optional replacement for the anchors above
             // Layout.fillHeight: true
             // Layout.alignment: Qt.AlignVCenter
 

@@ -1,5 +1,6 @@
 import "root:/services"
 import "root:/config"
+import "root:/widgets"
 import "root:/modules/osd" as Osd
 import "root:/modules/notifications" as Notifications
 import "root:/modules/session" as Session
@@ -81,56 +82,18 @@ Item {
 
         screen: root.screen
 
-        // x: (root.width - nonAnimWidth) / 2
-        // y: (root.height - nonAnimHeight) / 2
-
-        // y: 0
+        // y: isDetached ? (root.height - nonAnimHeight) / 2 : 0
+        y: 0
         // x: {
-        //     if (isDetached) return (root.width - nonAnimWidth) / 2;
+        //     if (isDetached)
+        //         return (root.width - nonAnimWidth) / 2;
 
-        //     let off = currentCenter - Config.border.thickness - nonAnimWidth / 2;
-        //     if (off < 0) return 0;
-        //     if (off + nonAnimWidth > root.width) return root.width - nonAnimWidth;
+        //     const off = currentCenter - Config.border.thickness - nonAnimWidth / 2;
+        //     const diff = root.width - Math.floor(off + nonAnimWidth);
+        //     if (diff < 0)
+        //         return off + diff;
         //     return off;
         // }
-
-        y: isDetached ? (root.height - nonAnimHeight) / 2 : 0
-        x: {
-            if (isDetached)
-                return (root.width - nonAnimWidth) / 2;
-
-            const off = currentCenter - Config.border.thickness - nonAnimWidth / 2;
-            const diff = root.width - Math.floor(off + nonAnimWidth);
-            if (diff < 0)
-                return off + diff;
-            return off;
-        }
-
-        // y: bar.implicitHeight
-        // x: {
-        //     if (isDetached) return (root.width - nonAnimWidth) / 2;
-
-        //     let off = currentCenter - Config.border.thickness - nonAnimWidth / 2;
-        //     if (off < 0) off = 0;
-        //     if (off + nonAnimWidth > root.width) off = root.width - nonAnimWidth;
-        //     return off;
-        // }
-
-        // Component.onCompleted: {
-        //     currentName = "battery";
-        //     hasCurrent = true;
-        // }
-
-        // visible: hasCurrent
-
-        // y: bar.implicitHeight
-        // x: {
-        //     if (isDetached) return (root.width - nonAnimWidth) / 2;
-
-        //     let off = currentCenter - Config.border.thickness - nonAnimWidth / 2;
-        //     if (off < 0) off = 0;
-        //     if (off + nonAnimWidth > root.width) off = root.width - nonAnimWidth;
-        //     return off;
-        // }
+        x: 0
     }
 }
