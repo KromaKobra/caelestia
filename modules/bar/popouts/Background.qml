@@ -7,11 +7,11 @@ ShapePath {
     id: root
 
     required property Wrapper wrapper
-    required property bool invertBottomRounding
+    required property bool invertBottomRight
     readonly property real rounding: Config.border.rounding
     readonly property bool flatten: wrapper.width < rounding * 2
     readonly property real roundingX: flatten ? wrapper.width / 2 : rounding
-    property real ibr: invertBottomRounding ? -1 : 1
+    property real ibr: invertBottomRight ? -1 : 1
 
     property real sideRounding: startX > 0 ? -1 : 1
 

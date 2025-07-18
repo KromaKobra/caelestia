@@ -39,5 +39,4 @@ Row {
         font.family: Appearance.font.family.mono
         color: root.colour
     }
-
 }

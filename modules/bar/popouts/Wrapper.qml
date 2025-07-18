@@ -2,10 +2,7 @@ pragma ComponentBehavior: Bound
 
 import "root:/services"
 import "root:/config"
-import "root:/modules/windowinfo"
 import Quickshell
-import Quickshell.Wayland
-import Quickshell.Hyprland
 import QtQuick
 
 Item {
@@ -13,8 +10,8 @@ Item {
 
     required property ShellScreen screen
 
-    readonly property real nonAnimHeight: y > 0 || hasCurrent ? children.find(c => c.shouldBeActive)?.implicitHeight ?? content.implicitHeight : 0
-    readonly property real nonAnimWidth: children.find(c => c.shouldBeActive)?.implicitWidth ?? content.implicitWidth
+    readonly property real nonAnimHeight: hasCurrent ? content.implicitHeight : 0 // not sure if y > 0 accomplishes anything
+    readonly property real nonAnimWidth: content.implicitWidth
 
     property string currentName
     property real currentCenter
@@ -29,13 +26,15 @@ Item {
     implicitHeight: nonAnimHeight
     implicitWidth: nonAnimWidth
 
-    Comp {
+    Loader {
         id: content
 
-        shouldBeActive: true
         asynchronous: true
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
+
+        active: true
+        // opacity: 1 // I think that since opacity is at 1 by default, setting it is redundant
 
         sourceComponent: Content {
             wrapper: root
@@ -46,25 +45,20 @@ Item {
         }
     }
 
-    Behavior on y {
-        Anim {
-            duration: root.animLength
-            easing.bezierCurve: root.animCurve
-        }
-    }
-
     Behavior on x {
         enabled: root.implicitHeight > 0
 
-        Anim {
+        NumberAnimation {
             duration: root.animLength
+            easing.type: Easing.BezierSpline
             easing.bezierCurve: root.animCurve
         }
     }
 
     Behavior on implicitHeight {
-        Anim {
+        NumberAnimation {
             duration: root.animLength
+            easing.type: Easing.BezierSpline
             easing.bezierCurve: root.animCurve
         }
     }
@@ -72,66 +66,10 @@ Item {
     Behavior on implicitWidth {
         enabled: root.implicitHeight > 0
 
-        Anim {
+        NumberAnimation {
             duration: root.animLength
+            easing.type: Easing.BezierSpline
             easing.bezierCurve: root.animCurve
         }
-    }
-
-    component Comp: Loader {
-        id: comp
-
-        property bool shouldBeActive
-
-        asynchronous: true
-        active: false
-        opacity: 0
-
-        states: State {
-            name: "active"
-            when: comp.shouldBeActive
-
-            PropertyChanges {
-                comp.opacity: 1
-                comp.active: true
-            }
-        }
-
-        transitions: [
-            Transition {
-                from: ""
-                to: "active"
-
-                SequentialAnimation {
-                    PropertyAction {
-                        property: "active"
-                    }
-                    Anim {
-                        property: "opacity"
-                        easing.bezierCurve: Appearance.anim.curves.standard
-                    }
-                }
-            },
-            Transition {
-                from: "active"
-                to: ""
-
-                SequentialAnimation {
-                    Anim {
-                        property: "opacity"
-                        easing.bezierCurve: Appearance.anim.curves.standard
-                    }
-                    PropertyAction {
-                        property: "active"
-                    }
-                }
-            }
-        ]
-    }
-
-    component Anim: NumberAnimation {
-        duration: Appearance.anim.durations.normal
-        easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.anim.curves.emphasized
     }
 }

@@ -82,18 +82,14 @@ Item {
 
         screen: root.screen
 
-        // y: isDetached ? (root.height - nonAnimHeight) / 2 : 0
         y: 0
-        // x: {
-        //     if (isDetached)
-        //         return (root.width - nonAnimWidth) / 2;
-
-        //     const off = currentCenter - Config.border.thickness - nonAnimWidth / 2;
-        //     const diff = root.width - Math.floor(off + nonAnimWidth);
-        //     if (diff < 0)
-        //         return off + diff;
-        //     return off;
-        // }
-        x: 0
+        x: {
+            const off = currentCenter - Config.border.thickness - nonAnimWidth / 2;
+            const diff = root.width - Math.floor(off + nonAnimWidth);
+            if (diff < 0)
+                return off + diff;
+            return off;
+        }
+        // x: 0
     }
 }
