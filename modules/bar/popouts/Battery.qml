@@ -1,58 +1,48 @@
 pragma ComponentBehavior: Bound
 
-import "root:/widgets"
-import "root:/services"
-import "root:/config"
+import qs.widgets
+import qs.services
+import qs.config
 import Quickshell.Services.UPower
 import QtQuick
 
-Row {
+Column {
     id: root
 
     spacing: Appearance.spacing.normal
-    height: Math.max(textColumn.implicitHeight, loaderItem.implicitHeight, profiles.implicitHeight) + Appearance.padding.large * 2
-    width: Config.bar.sizes.batteryWidth * 2 // Adjust width for horizontal layout
+    width: Config.bar.sizes.batteryWidth
 
-    Column {
-        id: textColumn
+    StyledText {
+        text: UPower.displayDevice.isLaptopBattery ? qsTr("Remaining: %1%").arg(Math.round(UPower.displayDevice.percentage * 100)) : qsTr("No battery detected")
+    }
 
-        spacing: Appearance.spacing.normal
-        anchors.verticalCenter: parent.verticalCenter
+    StyledText {
+        function formatSeconds(s: int, fallback: string): string {
+            const day = Math.floor(s / 86400);
+            const hr = Math.floor(s / 3600) % 60;
+            const min = Math.floor(s / 60) % 60;
 
-        StyledText {
-            text: UPower.displayDevice.isLaptopBattery ? qsTr("Remaining: %1%").arg(Math.round(UPower.displayDevice.percentage * 100)) : qsTr("No battery detected")
+            let comps = [];
+            if (day > 0)
+                comps.push(`${day} days`);
+            if (hr > 0)
+                comps.push(`${hr} hours`);
+            if (min > 0)
+                comps.push(`${min} mins`);
+
+            return comps.join(", ") || fallback;
         }
 
-        StyledText {
-            function formatSeconds(s: int, fallback: string): string {
-                const day = Math.floor(s / 86400);
-                const hr = Math.floor(s / 3600) % 60;
-                const min = Math.floor(s / 60) % 60;
-
-                let comps = [];
-                if (day > 0)
-                    comps.push(`${day} days`);
-                if (hr > 0)
-                    comps.push(`${hr} hours`);
-                if (min > 0)
-                    comps.push(`${min} mins`);
-
-                return comps.join(", ") || fallback;
-            }
-
-            text: UPower.displayDevice.isLaptopBattery ? qsTr("Time %1: %2").arg(UPower.onBattery ? "remaining" : "until charged").arg(UPower.onBattery ? formatSeconds(UPower.displayDevice.timeToEmpty, "Calculating...") : formatSeconds(UPower.displayDevice.timeToFull, "Fully charged!")) : qsTr("Power profile: %1").arg(PowerProfile.toString(PowerProfiles.profile))
-        }
+        text: UPower.displayDevice.isLaptopBattery ? qsTr("Time %1: %2").arg(UPower.onBattery ? "remaining" : "until charged").arg(UPower.onBattery ? formatSeconds(UPower.displayDevice.timeToEmpty, "Calculating...") : formatSeconds(UPower.displayDevice.timeToFull, "Fully charged!")) : qsTr("Power profile: %1").arg(PowerProfile.toString(PowerProfiles.profile))
     }
 
     Loader {
-        id: loaderItem
-
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
 
         active: PowerProfiles.degradationReason !== PerformanceDegradationReason.None
         asynchronous: true
 
-        width: active ? (item?.implicitWidth ?? 0) : 0
+        height: active ? (item?.implicitHeight ?? 0) : 0
 
         sourceComponent: StyledRect {
             implicitWidth: child.implicitWidth + Appearance.padding.normal * 2
@@ -117,9 +107,9 @@ Row {
             return balance.icon;
         }
 
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
 
-        implicitWidth: saver.implicitWidth + balance.implicitWidth + perf.implicitWidth + Appearance.padding.normal * 2 + Appearance.spacing.large * 2
+        implicitWidth: saver.implicitHeight + balance.implicitHeight + perf.implicitHeight + Appearance.padding.normal * 2 + Appearance.spacing.large * 2
         implicitHeight: Math.max(saver.implicitHeight, balance.implicitHeight, perf.implicitHeight) + Appearance.padding.small * 2
 
         color: Colours.palette.m3surfaceContainer
@@ -211,7 +201,7 @@ Row {
         required property string icon
         required property int profile
 
-        implicitWidth: icon.implicitWidth + Appearance.padding.small * 2
+        implicitWidth: icon.implicitHeight + Appearance.padding.small * 2
         implicitHeight: icon.implicitHeight + Appearance.padding.small * 2
 
         StateLayer {

@@ -9,8 +9,8 @@ ShapePath {
     required property Wrapper wrapper
     required property bool invertBottomRight
     readonly property real rounding: Config.border.rounding
-    readonly property bool flatten: wrapper.width < rounding * 2
-    readonly property real roundingX: flatten ? wrapper.width / 2 : rounding
+    readonly property bool flatten: wrapper.height < rounding * 2
+    readonly property real roundingY: flatten ? wrapper.height / 2 : rounding
     property real ibr: invertBottomRight ? -1 : 1
 
     property real sideRounding: startX > 0 ? -1 : 1
@@ -19,43 +19,51 @@ ShapePath {
     fillColor: Colours.palette.m3surface
 
     PathArc {
-        relativeX: root.roundingX
-        relativeY: root.rounding * root.sideRounding
-        radiusX: Math.min(root.rounding, root.wrapper.width)
-        radiusY: root.rounding
-        direction: root.sideRounding < 0 ? PathArc.Clockwise : PathArc.Counterclockwise
+        // Top Left
+        relativeY: root.roundingY
+        relativeX: -(root.rounding * root.sideRounding)
+        radiusY: Math.min(root.rounding, root.wrapper.width)
+        radiusX: root.rounding
+        direction: PathArc.Clockwise
     }
     PathLine {
-        relativeX: root.wrapper.width - root.roundingX * 2
-        relativeY: 0
-    }
-    PathArc {
-        relativeX: root.roundingX
-        relativeY: root.rounding
-        radiusX: Math.min(root.rounding, root.wrapper.width)
-        radiusY: root.rounding
-    }
-    PathLine {
+        // Left
         relativeX: 0
-        relativeY: root.wrapper.height - root.rounding * 2
+        relativeY: root.wrapper.height - root.roundingY * 2
     }
     PathArc {
-        relativeX: -root.roundingX * root.ibr
-        relativeY: root.rounding
+        // Bottom Left
+        relativeX: root.rounding
+        relativeY: root.roundingY * -root.sideRounding
         radiusX: Math.min(root.rounding, root.wrapper.width)
-        radiusY: root.rounding
-        direction: root.ibr < 0 ? PathArc.Counterclockwise : PathArc.Clockwise
+        radiusY: root.roundingY
+        direction: PathArc.Counterclockwise
     }
     PathLine {
-        relativeX: -(root.wrapper.width - root.roundingX - root.roundingX * root.ibr)
+        // Bottom
+        relativeX: root.wrapper.width - root.rounding * 2
         relativeY: 0
     }
     PathArc {
-        relativeX: -root.roundingX
-        relativeY: root.rounding * root.sideRounding
+        // Bottom Right
+        relativeX: root.rounding
+        relativeY: -root.roundingY * root.ibr
         radiusX: Math.min(root.rounding, root.wrapper.width)
-        radiusY: root.rounding
-        direction: root.sideRounding < 0 ? PathArc.Clockwise : PathArc.Counterclockwise
+        radiusY: root.roundingY
+        direction: root.ibr < 0 ? PathArc.Clockwise : PathArc.Counterclockwise
+    }
+    PathLine {
+        // Right
+        relativeX: 0
+        relativeY: -(root.wrapper.height - (root.roundingY * (1 + root.ibr)))
+    }
+    PathArc {
+        // Top Right
+        relativeX: root.rounding
+        relativeY: -root.roundingY
+        radiusX: Math.min(root.rounding, root.wrapper.width)
+        radiusY: root.roundingY
+        direction: PathArc.Clockwise
     }
 
     Behavior on fillColor {
