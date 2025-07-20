@@ -11,23 +11,38 @@ Item {
 
     property color colour: Colours.palette.m3secondary
 
-    readonly property Item network: network
+    readonly property Item performance: performance
+    readonly property real ns: network.x
+    readonly property real ne: network.x + network.implicitWidth
     readonly property real bs: bluetooth.x
     readonly property real be: repeater.count > 0 ? devices.x + devices.implicitWidth : bluetooth.x + bluetooth.implicitWidth
     readonly property Item battery: battery
 
     clip: true
-    implicitHeight: Math.max(network.implicitHeight, bluetooth.implicitHeight, devices.implicitHeight, battery.implicitHeight)
-    implicitWidth: network.implicitWidth + bluetooth.implicitWidth + bluetooth.anchors.leftMargin + (repeater.count > 0 ? devices.implicitWidth + devices.anchors.leftMargin : 0) + battery.implicitWidth + battery.anchors.leftMargin
+    implicitHeight: Math.max(performance.implicitHeight, network.implicitHeight, bluetooth.implicitHeight, devices.implicitHeight, battery.implicitHeight)
+    implicitWidth: 6 + performance.implicitWidth + network.implicitWidth + bluetooth.implicitWidth + bluetooth.anchors.leftMargin + (repeater.count > 0 ? devices.implicitWidth + devices.anchors.leftMargin : 0) + battery.implicitWidth + battery.anchors.leftMargin
+    // The addition of 6 is just a place holder until I understand why more space is needed
+
+    MaterialIcon {
+        id: performance
+
+        animate: true
+        text: Icons.getPerformanceIcon("cpu")
+        color: root.colour
+
+        anchors.verticalCenter: parent.verticalCenter
+    }
 
     MaterialIcon {
         id: network
 
+        anchors.verticalCenter: performance.verticalCenter
+        anchors.left: performance.right
+        anchors.leftMargin: Appearance.spacing.smaller / 2
+
         animate: true
         text: Network.active ? Icons.getNetworkIcon(Network.active.strength ?? 0) : "wifi_off"
         color: root.colour
-
-        anchors.verticalCenter: parent.verticalCenter
     }
 
     MaterialIcon {

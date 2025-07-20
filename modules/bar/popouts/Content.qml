@@ -27,6 +27,11 @@ Item {
         anchors.margins: Appearance.padding.large
 
         Popout {
+            name: "performance"
+            source: "Performance.qml"
+        }
+
+        Popout {
             name: "network"
             source: "Network.qml"
         }

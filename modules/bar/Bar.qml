@@ -22,14 +22,18 @@ Item {
         const tw = tray.implicitWidth;
         const trayItems = tray.items;
 
-        const n = statusIconsInner.network;
-        const nx = padding + statusIcons.x + statusIconsInner.x + n.x - spacing / 2;
+        const leftPosX = padding + statusIcons.x + statusIconsInner.x;
+        const p = statusIconsInner.performance;
+        const px = leftPosX + p.x - spacing / 2;
 
-        const bls = padding + statusIcons.x + statusIconsInner.x + statusIconsInner.bs - spacing / 2;
-        const ble = padding + statusIcons.x + statusIconsInner.x + statusIconsInner.be + spacing / 2;
+        const ns = leftPosX + statusIconsInner.ns - spacing / 2;
+        const ne = leftPosX + statusIconsInner.ne + spacing / 2;
+
+        const bls = leftPosX + statusIconsInner.bs - spacing / 2;
+        const ble = leftPosX + statusIconsInner.be + spacing / 2;
 
         const b = statusIconsInner.battery;
-        const bx = padding + statusIcons.x + statusIconsInner.x + b.x - spacing / 2;
+        const bx = leftPosX + b.x - spacing / 2;
 
         if (x > tx && x < tx + tw) {
             const index = Math.floor(((x - tx) / tw) * trayItems.count);
@@ -38,9 +42,13 @@ Item {
             popouts.currentName = `traymenu${index}`;
             popouts.currentCenter = Qt.binding(() => tx + item.x + item.implicitWidth / 2);
             popouts.hasCurrent = true;
-        } else if (x >= nx && x <= nx + n.implicitWidth + spacing) {
+        } else if (x >= px && x <= px + p.implicitWidth + spacing) {
+            popouts.currentName = "performance";
+            popouts.currentCenter = Qt.binding(() => statusIcons.x + statusIconsInner.x + p.x + p.implicitWidth / 2);
+            popouts.hasCurrent = true;
+        } else if (x >= ns && x <= ne) {
             popouts.currentName = "network";
-            popouts.currentCenter = Qt.binding(() => statusIcons.x + statusIconsInner.x + n.x + n.implicitWidth / 2);
+            popouts.currentCenter = Qt.binding(() => statusIcons.x + statusIconsInner.x + statusIconsInner.ns + (statusIconsInner.ne - statusIconsInner.ns) / 2);
             popouts.hasCurrent = true;
         } else if (x >= bls && x <= ble) {
             popouts.currentName = "bluetooth";
@@ -83,7 +91,7 @@ Item {
 
             implicitHeight: workspacesInner.implicitHeight + Appearance.padding.small
             implicitWidth: workspacesInner.implicitWidth + Appearance.padding.small * 2
-        
+
             // Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
 
