@@ -4,6 +4,7 @@ import "root:/utils"
 import "root:/config"
 import Quickshell
 import Quickshell.Services.UPower
+import Quickshell.Services.Mpris
 import QtQuick
 
 Item {
@@ -14,20 +15,25 @@ Item {
     readonly property Item performance: performance
     readonly property real ns: network.x
     readonly property real ne: network.x + network.implicitWidth
+    readonly property real ds: display.x
+    readonly property real de: display.x + display.implicitWidth
+    readonly property real aus: audio.x
+    readonly property real aue: audio.x + audio.implicitWidth
+    readonly property real ms: media.x
+    readonly property real me: media.x + media.implicitWidth
     readonly property real bs: bluetooth.x
     readonly property real be: repeater.count > 0 ? devices.x + devices.implicitWidth : bluetooth.x + bluetooth.implicitWidth
     readonly property Item battery: battery
 
     clip: true
-    implicitHeight: Math.max(performance.implicitHeight, network.implicitHeight, bluetooth.implicitHeight, devices.implicitHeight, battery.implicitHeight)
-    implicitWidth: 6 + performance.implicitWidth + network.implicitWidth + bluetooth.implicitWidth + bluetooth.anchors.leftMargin + (repeater.count > 0 ? devices.implicitWidth + devices.anchors.leftMargin : 0) + battery.implicitWidth + battery.anchors.leftMargin
-    // The addition of 6 is just a place holder until I understand why more space is needed
+    implicitHeight: Math.max(performance.implicitHeight, network.implicitHeight, display.implicitHeight, audio.implicitHeight, media.implicitHeight, bluetooth.implicitHeight, devices.implicitHeight, battery.implicitHeight)
+    implicitWidth: performance.implicitWidth + network.implicitWidth + network.anchors.leftMargin + display.implicitWidth + display.anchors.leftMargin + audio.implicitWidth + audio.anchors.leftMargin + media.implicitWidth + media.anchors.leftMargin + bluetooth.implicitWidth + bluetooth.anchors.leftMargin + (repeater.count > 0 ? devices.implicitWidth + devices.anchors.leftMargin : 0) + battery.implicitWidth + battery.anchors.leftMargin
 
     MaterialIcon {
         id: performance
 
         animate: true
-        text: Icons.getPerformanceIcon("cpu")
+        text: "speed"
         color: root.colour
 
         anchors.verticalCenter: parent.verticalCenter
@@ -46,10 +52,46 @@ Item {
     }
 
     MaterialIcon {
-        id: bluetooth
+        id: display
 
         anchors.verticalCenter: network.verticalCenter
         anchors.left: network.right
+        anchors.leftMargin: Appearance.spacing.smaller / 2
+
+        animate: true
+        text: "clear_day"
+        color: root.colour
+    }
+
+    MaterialIcon {
+        id: audio
+
+        anchors.verticalCenter: display.verticalCenter
+        anchors.left: display.right
+        anchors.leftMargin: Appearance.spacing.smaller / 2
+
+        animate: true
+        text: "volume_up"
+        color: root.colour
+    }
+
+    MaterialIcon {
+        id: media
+
+        anchors.verticalCenter: audio.verticalCenter
+        anchors.left: audio.right
+        anchors.leftMargin: !!Players.active ? Appearance.spacing.smaller / 2 : 0
+
+        animate: true
+        text: !!Players.active ? "music_note" : ""
+        color: root.colour
+    }
+
+    MaterialIcon {
+        id: bluetooth
+
+        anchors.verticalCenter: media.verticalCenter
+        anchors.left: media.right
         anchors.leftMargin: Appearance.spacing.smaller / 2
 
         animate: true

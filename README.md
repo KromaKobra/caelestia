@@ -37,17 +37,19 @@ and be running Wayland as it is a requirement for Quickshell.
 - #### STATUS BAR:
     - Status Icons:
         - [ ] Make Performance icon show cpu, gpu, and ram utilization, space, temperature and such. (Also add computer up time)
-            - [ ] Change logo to the speed dial thingy shown on the performance on the dashboard. Rather than cpu logo.
+            - [x] Change logo to the speed dial thingy shown on the performance on the dashboard. Rather than cpu logo.
+            - [ ] Make the design something unique and useful. Maybe similar to a task manager, maybe not. idk.
         - [ ] Make clicking icons do things (mostly opening programs)
             - [ ] bluetooth opens bluetooth manager
             - [ ] network opens network settings
             - [ ] performance opens system monitor
-        - [ ] Readd idle manager or something (clicking on it makes hypridle not lock/shutdown computer after idle time)
         - [ ] Add more status icons
             - [ ] Audio: for changing volume and IO audio devices.
             - [ ] Media: or music. It shows media controls like the media tab of the dashboard. (Only display if media is loaded)
                 - [ ] (Clicking opens a music window that I design. Will have options like an audio reactor that can be placed on a second monitor for texture)
-            - [ ] Display: change brightness, turn on blue light filter. - [ ] Clicking opens monitor settings like changing refresh rate and monitor position
+                - [ ] Just to the right of the workspaces widget, there will be a section saying what the name of the song or name of the media that is playing is.
+            - [ ] Display: change brightness, turn on blue light filter. Clicking opens monitor settings like changing refresh rate and monitor position
+                - [ ] Here you can also turn on idle on and off
         - [ ] Make network icon change to ethernet icon if ethernet is connected
         - [ ] Make hovering or clicking the clock in the center open up a calendar
     - [ ] Center clock on screen

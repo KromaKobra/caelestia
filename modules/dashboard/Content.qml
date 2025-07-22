@@ -96,10 +96,6 @@ Item {
                         visibilities: root.visibilities
                     }
                 }
-
-                Pane {
-                    sourceComponent: Performance {}
-                }
             }
 
             Behavior on contentX {

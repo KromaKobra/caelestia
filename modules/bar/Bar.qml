@@ -29,6 +29,15 @@ Item {
         const ns = leftPosX + statusIconsInner.ns - spacing / 2;
         const ne = leftPosX + statusIconsInner.ne + spacing / 2;
 
+        const ds = leftPosX + statusIconsInner.ds - spacing / 2;
+        const de = leftPosX + statusIconsInner.de + spacing / 2;
+
+        const aus = leftPosX + statusIconsInner.aus - spacing / 2;
+        const aue = leftPosX + statusIconsInner.aue + spacing / 2;
+
+        const ms = leftPosX + statusIconsInner.ms - spacing / 2;
+        const me = leftPosX + statusIconsInner.me + spacing / 2;
+
         const bls = leftPosX + statusIconsInner.bs - spacing / 2;
         const ble = leftPosX + statusIconsInner.be + spacing / 2;
 
@@ -49,6 +58,19 @@ Item {
         } else if (x >= ns && x <= ne) {
             popouts.currentName = "network";
             popouts.currentCenter = Qt.binding(() => statusIcons.x + statusIconsInner.x + statusIconsInner.ns + (statusIconsInner.ne - statusIconsInner.ns) / 2);
+            popouts.hasCurrent = true;
+        } else if (x >= ds && x <= de) {
+            popouts.currentName = "display";
+            popouts.currentCenter = Qt.binding(() => statusIcons.x + statusIconsInner.x + statusIconsInner.ds + (statusIconsInner.de - statusIconsInner.ds) / 2);
+            popouts.hasCurrent = true;
+        } else if (x >= aus && x <= aue) {
+            popouts.currentName = "audio";
+            popouts.currentCenter = Qt.binding(() => statusIcons.x + statusIconsInner.x + statusIconsInner.aus + (statusIconsInner.aue - statusIconsInner.aus) / 2);
+            popouts.hasCurrent = true;
+        } else if (x >= ms && x <= me) {
+            // Maybe get rid of one = so that when media is off, there isn't a pixel that can be hovered on
+            popouts.currentName = "media";
+            popouts.currentCenter = Qt.binding(() => statusIcons.x + statusIconsInner.x + statusIconsInner.ms + (statusIconsInner.me - statusIconsInner.ms) / 2);
             popouts.hasCurrent = true;
         } else if (x >= bls && x <= ble) {
             popouts.currentName = "bluetooth";
@@ -124,6 +146,7 @@ Item {
         Clock {
             id: clock
 
+            // Layout.anchors.horizontalCenter: parent.anchors.horizontalCenter
             Layout.alignment: Qt.AlignVCenter
             // Layout.alignment: Qt.AlignHCenter (Idk now how to center clock to screen)
         }

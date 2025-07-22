@@ -11,6 +11,8 @@ JsonObject {
         property int innerHeight: 22
         property int trayMenuWidth: 300
         property int batteryWidth: 250
+        readonly property int resourceSize: 200
+        readonly property int resourceProgessThickness: 10
     }
 
     workspaces: JsonObject {

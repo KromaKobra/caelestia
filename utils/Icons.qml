@@ -173,12 +173,6 @@ Singleton {
         return fallback;
     }
 
-    function getPerformanceIcon(icon: string): string {
-        if (icon.includes("cpu")) // There will be only one icon request at a time, so "includes" may not be necessary
-            return "memory";
-        return "memory";
-    }
-
     function getNetworkIcon(strength: int): string {
         if (strength >= 80)
             return "signal_wifi_4_bar";

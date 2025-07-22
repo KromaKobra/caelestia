@@ -37,6 +37,21 @@ Item {
         }
 
         Popout {
+            name: "display"
+            source: "Display.qml"
+        }
+
+        Popout {
+            name: "audio"
+            source: "Audio.qml"
+        }
+
+        Popout {
+            name: "media"
+            source: "Media.qml"
+        }
+
+        Popout {
             name: "bluetooth"
             source: "Bluetooth.qml"
         }
