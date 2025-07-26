@@ -28,14 +28,6 @@ Scope {
         }
     }
 
-    Connections {
-        target: root.monitor
-
-        function onBrightnessChanged(): void {
-            root.show();
-        }
-    }
-
     Timer {
         id: timer
 

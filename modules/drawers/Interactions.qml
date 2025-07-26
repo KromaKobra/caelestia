@@ -66,20 +66,21 @@ MouseArea {
         const x = event.x;
         const y = event.y;
 
-        // Show bar in non-exclusive mode on hover
-        if (!visibilities.bar && Config.bar.showOnHover && y < bar.implicitHeight) {
-            bar.isHovered = true;
-        }
+        // I DON'T KNOW WHAT 'BAR' IS
+        // // Show bar in non-exclusive mode on hover
+        // if (!visibilities.bar && Config.bar.showOnHover && y < bar.implicitHeight) {
+        //     bar.isHovered = true;
+        // }
 
-        // Show/hide bar on drag
-        if (pressed && dragStart.y < bar.implicitHeight) {
-            const dragY = y - dragStart.y;
-            if (dragY > Config.bar.dragThreshold) {
-                visibilities.bar = true;
-            } else if (dragY < -Config.bar.dragThreshold) {
-                visibilities.bar = false;
-            }
-        }
+        // // Show/hide bar on drag
+        // if (pressed && dragStart.y < bar.implicitHeight) {
+        //     const dragY = y - dragStart.y;
+        //     if (dragY > Config.bar.dragThreshold) {
+        //         visibilities.bar = true;
+        //     } else if (dragY < -Config.bar.dragThreshold) {
+        //         visibilities.bar = false;
+        //     }
+        // }
 
         // Show osd on hover
         const showOsd = inRightPanel(panels.osd, x, y);
